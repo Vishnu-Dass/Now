@@ -1,7 +1,9 @@
 package Adapter;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.easychoices.MainActivity;
 import com.example.easychoices.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -18,11 +20,33 @@ import Adapter.ui.main.SectionsPagerAdapter;
 
 public class Main2Activity extends AppCompatActivity {
 
+
+    String mTitle = "";
+    String mUrl = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+
+
+        Intent intent = getIntent();
+
+        if (intent != null) {
+
+            if (intent.getStringExtra(MainActivity.ARG_TITLE) != null) {
+                mTitle = intent.getStringExtra(MainActivity.ARG_TITLE);
+            }
+
+            if (intent.getStringExtra(MainActivity.ARG_URL) != null) {
+                mUrl = intent.getStringExtra(MainActivity.ARG_URL);
+            }
+
+
+        }
+
+
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager(), mTitle, mUrl);
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);

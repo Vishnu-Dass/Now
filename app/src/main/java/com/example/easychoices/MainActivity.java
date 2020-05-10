@@ -31,6 +31,10 @@ public class MainActivity extends  AppCompatActivity implements FirebaseLoader {
 
     CollectionReference restaurants;
 
+
+    public static final String ARG_TITLE = "ARG_TITLE";
+    public static final String ARG_URL = "ARG_URL";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +88,10 @@ public class MainActivity extends  AppCompatActivity implements FirebaseLoader {
 
     public void clickNext(View view) {
         Intent intent = new Intent(this, Main2Activity.class);
+
+        intent.putExtra(ARG_TITLE, "DEMO");
+        intent.putExtra(ARG_URL, "https://google.com");
+
         startActivity(intent);
     }
 }

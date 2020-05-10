@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 /**
@@ -21,11 +22,13 @@ public class FragmentNonHalal extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String mTitle;
+    private String mUrl;
 
     public FragmentNonHalal() {
         // Required empty public constructor
+
+
     }
 
     /**
@@ -49,9 +52,10 @@ public class FragmentNonHalal extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mTitle = getArguments().getString(ARG_PARAM1);
+            mUrl = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -59,6 +63,16 @@ public class FragmentNonHalal extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_non_halal, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_non_halal, container, false);
+
+        TextView txtTitleView = view.findViewById(R.id.txtTitleView);
+        TextView txtUrlView = view.findViewById(R.id.txtUrlView);
+
+
+        txtTitleView.setText(mTitle);
+        txtUrlView.setText(mUrl);
+
+        return view;
     }
 }
