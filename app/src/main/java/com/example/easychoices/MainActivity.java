@@ -101,10 +101,13 @@ public class MainActivity extends AppCompatActivity implements FirebaseLoader {
         if (mRestaurantList.size() > 0) {
 
 
+            String title = mRestaurantList.get(selectedPageNo).getTitle();
+            String url = mRestaurantList.get(selectedPageNo).getImage();
+
             Intent intent = new Intent(this, Main2Activity.class);
 
-            intent.putExtra(ARG_TITLE, "DEMO");
-            intent.putExtra(ARG_URL, "https://google.com");
+            intent.putExtra(ARG_TITLE, title);
+            intent.putExtra(ARG_URL, url);
 
             startActivity(intent);
 
