@@ -4,6 +4,7 @@ import Adapter.Main2Activity;
 import Adapter.MyAdapter;
 import Interface.FirebaseLoader;
 import Model.Restaurant;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -24,12 +25,14 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends  AppCompatActivity implements FirebaseLoader {
+public class MainActivity extends AppCompatActivity implements FirebaseLoader {
     ViewPager viewPager;
     MyAdapter myAdapter;
     FirebaseLoader firebaseLoader;
 
     CollectionReference restaurants;
+
+    List<Restaurant> mRestaurantList = new ArrayList<>();
 
 
     public static final String ARG_TITLE = "ARG_TITLE";
@@ -43,7 +46,7 @@ public class MainActivity extends  AppCompatActivity implements FirebaseLoader {
         firebaseLoader = this;
         restaurants = FirebaseFirestore.getInstance().collection("Restaurant");
 
-        viewPager =(ViewPager)findViewById(R.id.viewPager);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
 
         getData();
     }
@@ -51,7 +54,7 @@ public class MainActivity extends  AppCompatActivity implements FirebaseLoader {
 
     private void getData() {
         restaurants.get()
-                .addOnFailureListener(new OnFailureListener(){
+                .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         firebaseLoader.onFirestoreLoadFailed(e.getMessage());
@@ -60,9 +63,9 @@ public class MainActivity extends  AppCompatActivity implements FirebaseLoader {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             List<Restaurant> restaurants = new ArrayList<>();
-                            for (QueryDocumentSnapshot restaurantSnapshot:task.getResult()){
+                            for (QueryDocumentSnapshot restaurantSnapshot : task.getResult()) {
                                 Restaurant restaurant = restaurantSnapshot.toObject(Restaurant.class);
                                 restaurants.add(restaurant);
                             }
@@ -75,23 +78,36 @@ public class MainActivity extends  AppCompatActivity implements FirebaseLoader {
 
     @Override
     public void onFireStoreLoadSuccess(List<Restaurant> restaurants) {
-        myAdapter = new MyAdapter(this,restaurants);
+
+        mRestaurantList = restaurants;
+
+        myAdapter = new MyAdapter(this, restaurants);
         viewPager.setAdapter(myAdapter);
     }
 
     @Override
     public void onFirestoreLoadFailed(String message) {
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 
     }
 
 
     public void clickNext(View view) {
-        Intent intent = new Intent(this, Main2Activity.class);
 
-        intent.putExtra(ARG_TITLE, "DEMO");
-        intent.putExtra(ARG_URL, "https://google.com");
 
-        startActivity(intent);
+        int selectedPageNo = viewPager.getCurrentItem();
+
+
+        if (mRestaurantList.size() > 0) {
+
+
+            Intent intent = new Intent(this, Main2Activity.class);
+
+            intent.putExtra(ARG_TITLE, "DEMO");
+            intent.putExtra(ARG_URL, "https://google.com");
+
+            startActivity(intent);
+
+        }
     }
 }

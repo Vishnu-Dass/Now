@@ -25,7 +25,7 @@ public class MyAdapter extends PagerAdapter {
     List<Restaurant> restaurantList;
     LayoutInflater inflater;
 
-    public MyAdapter(Context context, List<Restaurant>restaurantList){
+    public MyAdapter(Context context, List<Restaurant> restaurantList){
         this.context = context;
         this.restaurantList = restaurantList;
         inflater = LayoutInflater.from(context);
